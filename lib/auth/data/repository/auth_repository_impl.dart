@@ -117,4 +117,9 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(AuthFailure());
     }
   }
+
+  @override
+  Future<bool> isFirstTIme() async {
+    return await _localAuthDataSource.isFirstTime();
+  }
 }
