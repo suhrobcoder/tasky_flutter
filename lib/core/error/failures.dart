@@ -11,7 +11,7 @@ class Failure extends Equatable {
 class AuthFailure extends Failure {
   final String message;
 
-  AuthFailure({this.message = "Something went wrong"}) : super([message]);
+  AuthFailure({this.message = defaultErrorMsg}) : super([message]);
 }
 
 class CredientalsValidationFailure extends Failure {
@@ -21,3 +21,5 @@ class CredientalsValidationFailure extends Failure {
   CredientalsValidationFailure(this.emailMsg, this.passwordMsg)
       : super([emailMsg, passwordMsg]);
 }
+
+const defaultErrorMsg = "Something went wrong";
