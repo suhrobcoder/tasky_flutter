@@ -6,19 +6,18 @@ import 'package:tasky/auth/domain/entity/user_credientals_entity.dart';
 import 'package:tasky/auth/domain/entity/user_entity.dart';
 import 'package:tasky/auth/domain/repository/auth_repository.dart';
 import 'package:tasky/auth/domain/usecase/regiser_user.dart';
-import 'package:tasky/auth/domain/usecase/sign_in_user.dart';
 import 'package:tasky/core/error/failures.dart';
 
-import 'google_sign_in_user_test.mocks.dart';
+import 'mock_generator.mocks.dart';
 
 @GenerateMocks([AuthRepository])
 void main() {
   late MockAuthRepository mockAuthRepository;
-  late SignInUser signInUser;
+  late RegisterUser registerUser;
 
   setUp(() {
     mockAuthRepository = MockAuthRepository();
-    signInUser = SignInUser(mockAuthRepository);
+    registerUser = RegisterUser(mockAuthRepository);
   });
 
   var mockUser = const UserEntity("id", "name", "email", "avatarUrl");
@@ -26,10 +25,13 @@ void main() {
   test(
     "invalid credientals returns [CredientalsFailure]",
     () async {
-      when(mockAuthRepository.signInUser())
+      when(mockAuthRepository.registerUser())
           .thenAnswer((_) => Future.value(Right(mockUser)));
-      var result = await signInUser.execute(
-          email: "invalidEmail", password: "1234", passwordRepeat: "1234");
+      var result = await registerUser.execute(
+          name: "mockName",
+          email: "invalidEmail",
+          password: "1234",
+          passwordRepeat: "1234");
       expect(
         result,
         equals(
@@ -41,10 +43,13 @@ void main() {
   test(
     "should return AuthFailure when repository returns failure",
     () async {
-      when(mockAuthRepository.signInUser(
-              email: "suhrobcoder@gmail.com", password: "123456"))
+      when(mockAuthRepository.registerUser(
+              name: "mockName",
+              email: "suhrobcoder@gmail.com",
+              password: "123456"))
           .thenAnswer((_) => Future.value(Left(AuthFailure())));
-      var result = await signInUser.execute(
+      var result = await registerUser.execute(
+          name: "mockName",
           email: "suhrobcoder@gmail.com",
           password: "123456",
           passwordRepeat: "123456");
@@ -52,18 +57,23 @@ void main() {
         result,
         equals(Left(AuthFailure())),
       );
-      verify(mockAuthRepository.signInUser(
-          email: "suhrobcoder@gmail.com", password: "123456"));
+      verify(mockAuthRepository.registerUser(
+          name: "mockName",
+          email: "suhrobcoder@gmail.com",
+          password: "123456"));
     },
   );
 
   test(
     "should return user entity when successful",
     () async {
-      when(mockAuthRepository.signInUser(
-              email: "suhrobcoder@gmail.com", password: "123456"))
+      when(mockAuthRepository.registerUser(
+              name: "mockName",
+              email: "suhrobcoder@gmail.com",
+              password: "123456"))
           .thenAnswer((_) => Future.value(Right(mockUser)));
-      var result = await signInUser.execute(
+      var result = await registerUser.execute(
+          name: "mockName",
           email: "suhrobcoder@gmail.com",
           password: "123456",
           passwordRepeat: "123456");
@@ -71,8 +81,10 @@ void main() {
         result,
         equals(Right(mockUser)),
       );
-      verify(mockAuthRepository.signInUser(
-          email: "suhrobcoder@gmail.com", password: "123456"));
+      verify(mockAuthRepository.registerUser(
+          name: "mockName",
+          email: "suhrobcoder@gmail.com",
+          password: "123456"));
     },
   );
 }
