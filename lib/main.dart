@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/auth/presentation/pages/splash_page.dart';
+import 'package:tasky/core/routes/routes.dart';
 import 'package:tasky/service_locator.dart';
 
 void main() async {
@@ -21,9 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(
-        body: Center(child: Text("Hello World")),
-      ),
+      routes: routes,
+      initialRoute: splashPage,
     );
   }
 }
