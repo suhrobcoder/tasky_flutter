@@ -12,11 +12,11 @@ class SignInUser {
   Future<Either<Failure, UserEntity>> execute({
     required String email,
     required String password,
-    required String passwordRepeat,
   }) async {
-    var userCredientals = UserCredientalsEntity(
-        email: email, password: password, passwordRepeat: passwordRepeat);
+    var userCredientals =
+        UserCredientalsEntity(email: email, password: password);
     var validate = userCredientals.validate();
+    print("Usecase validation: " + validate.toString());
     return validate.fold<Future<Either<Failure, UserEntity>>>(
       (l) => Future.value(Left(l)),
       (r) async =>

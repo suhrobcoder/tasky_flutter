@@ -4,7 +4,9 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final Color color;
   final Function onClick;
-  const PrimaryButton(this.text, this.color, this.onClick, {Key? key})
+  final bool enabled;
+  const PrimaryButton(this.text, this.color, this.onClick,
+      {this.enabled = true, Key? key})
       : super(key: key);
 
   @override
@@ -14,13 +16,13 @@ class PrimaryButton extends StatelessWidget {
       width: width * 0.7,
       height: 64.0,
       decoration: BoxDecoration(
-        color: color,
+        color: enabled ? color : color.withOpacity(0.7),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => onClick(),
+          onTap: enabled ? () => onClick() : null,
           borderRadius: BorderRadius.circular(16.0),
           child: Center(
             child: Text(

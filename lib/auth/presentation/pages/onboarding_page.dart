@@ -61,7 +61,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 const Spacer(),
                 PrimaryButton(
                   "Get Started",
-                  onboardingModels[0].color,
+                  onboardingModels[progress.round()].color,
                   () {
                     if (_controller.page == onboardingModels.length - 1) {
                       Navigator.popAndPushNamed(context, signInPage);

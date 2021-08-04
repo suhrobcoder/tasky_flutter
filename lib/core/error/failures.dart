@@ -17,8 +17,10 @@ class AuthFailure extends Failure {
 class CredientalsValidationFailure extends Failure {
   final String? emailMsg;
   final String? passwordMsg;
+  final String? passwordRepeatMsg;
 
-  CredientalsValidationFailure(this.emailMsg, this.passwordMsg)
+  CredientalsValidationFailure(
+      this.emailMsg, this.passwordMsg, this.passwordRepeatMsg)
       : super([emailMsg, passwordMsg]);
 }
 

@@ -12,6 +12,8 @@ import 'package:tasky/auth/domain/usecase/is_first_time.dart';
 import 'package:tasky/auth/domain/usecase/regiser_user.dart';
 import 'package:tasky/auth/domain/usecase/sign_in_user.dart';
 import 'package:tasky/auth/domain/usecase/sign_out.dart';
+import 'package:tasky/auth/domain/usecase/validate_credientals.dart';
+import 'package:tasky/auth/presentation/bloc/signin/signin_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/splash/splash_bloc.dart';
 
 final sl = GetIt.instance;
@@ -21,6 +23,7 @@ Future setup() async {
   // Bloc
   sl.registerFactory<SplashBloc>(
       () => SplashBloc(isFirstTime: sl(), checkAuthenticated: sl()));
+  sl.registerFactory<SigninBloc>(() => SigninBloc(sl(), sl(), sl()));
 
   // Use Cases
   sl.registerFactory<CheckAuthenticated>(() => CheckAuthenticated(sl()));
@@ -29,6 +32,7 @@ Future setup() async {
   sl.registerFactory<RegisterUser>(() => RegisterUser(sl()));
   sl.registerFactory<SignInUser>(() => SignInUser(sl()));
   sl.registerFactory<SignOut>(() => SignOut(sl<AuthRepository>()));
+  sl.registerFactory<ValidateCredientals>(() => ValidateCredientals());
 
   // Repository
   sl.registerFactory<AuthRepository>(
