@@ -21,7 +21,7 @@ class CredientalsValidationFailure extends Failure {
 
   CredientalsValidationFailure(
       this.emailMsg, this.passwordMsg, this.passwordRepeatMsg)
-      : super([emailMsg, passwordMsg]);
+      : super([emailMsg, passwordMsg, passwordRepeatMsg]);
 }
 
 const defaultErrorMsg = "Something went wrong";

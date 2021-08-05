@@ -41,9 +41,6 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       yield SigningInState(state.email, state.password);
       var result = await signInUser.execute(
           email: state.email, password: state.password);
-      print("Bloc: " + state.toString());
-      print(state.email + ":" + state.password);
-      print(result.toString());
       yield result.fold(
         (l) => state.copyErrorState(l is AuthFailure ? l.message : "Error"),
         (r) => SignedInState(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/auth/presentation/pages/onboarding_page.dart';
 import 'package:tasky/auth/presentation/pages/signin_page.dart';
+import 'package:tasky/auth/presentation/pages/register_page.dart';
 import 'package:tasky/auth/presentation/pages/splash_page.dart';
 
 var routes = {
@@ -8,7 +9,7 @@ var routes = {
   onboardingPage: (_) => const OnboardingPage(),
   signInPage: (_) => const SignInPage(),
   forgotPasswordPage: (_) => const Text("Forgot Password"),
-  registerPage: (_) => const Text("Register"),
+  registerPage: (_) => const RegisterPage(),
   homePage: (_) => Text("Home"),
 };
 

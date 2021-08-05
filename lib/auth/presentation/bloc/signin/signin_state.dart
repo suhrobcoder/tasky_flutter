@@ -9,16 +9,6 @@ abstract class SigninState extends Equatable {
   @override
   List<Object?> get props => [email, password];
 
-  // InvalidCredientalsState copyInvalidCredientalsState(
-  //   String email,
-  //   String password,
-  //   String? emailFailure,
-  //   String? passwordFailure,
-  // ) {
-  //   return InvalidCredientalsState(
-  //       email, password, emailFailure, passwordFailure);
-  // }
-
   ErrorState copyErrorState(String errorMsg) {
     return ErrorState(email, password, errorMsg);
   }
