@@ -37,3 +37,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: Avenir
+      fonts:
+        - asset: assets\fonts\avenir_regular.ttf
+        - asset: assets\fonts\avenir_medium.ttf
+          weight: 500
+        - asset: assets\fonts\avenir_semi.ttf
+          weight: 600
