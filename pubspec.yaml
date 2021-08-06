@@ -28,7 +28,6 @@ dependencies:
   connectivity: ^3.0.6
   flutter_svg: ^0.22.0
   image_picker: ^0.8.2
-  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:

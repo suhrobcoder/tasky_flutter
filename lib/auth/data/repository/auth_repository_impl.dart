@@ -122,4 +122,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> isFirstTIme() async {
     return await _localAuthDataSource.isFirstTime();
   }
+
+  @override
+  Future<Either<Failure, bool>> passwordReset(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return const Right(true);
+    } on FirebaseAuthException catch (e) {
+      return Left(AuthFailure(message: e.message ?? defaultErrorMsg));
+    } catch (e) {
+      return Left(AuthFailure());
+    }
+  }
 }

@@ -4,12 +4,12 @@ import 'package:tasky/core/error/failures.dart';
 
 class UserCredientalsEntity extends Equatable {
   final String email;
-  final String password;
+  final String? password;
   final String? passwordRepeat;
 
   const UserCredientalsEntity({
     required this.email,
-    required this.password,
+    this.password,
     this.passwordRepeat,
   });
 
@@ -26,7 +26,7 @@ class UserCredientalsEntity extends Equatable {
     if (passwordRepeat != null && passwordRepeat != password) {
       passwordRepeatFailure = didntMatchPswdMsg;
     }
-    if (password.length < 6) {
+    if (password != null && (password ?? "").length < 6) {
       passwordFailure = weakPswdMsg;
     }
     if (emailFailure == null &&

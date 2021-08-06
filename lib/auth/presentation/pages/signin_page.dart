@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/signin/signin_bloc.dart';
+import 'package:tasky/auth/presentation/widgets/input_fields.dart';
 import 'package:tasky/core/constants/size.dart';
 import 'package:tasky/core/routes/routes.dart';
 import 'package:tasky/global_widgets/buttons.dart';
@@ -58,38 +59,23 @@ class SignInPage extends StatelessWidget {
                                 TextStyle(fontSize: 22, color: Colors.black54),
                           ),
                           const SizedBox(height: 56),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.alternate_email_rounded),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16.0)),
-                              labelText: "Email",
-                              errorText: state is InvalidCredientalsState
-                                  ? state.emailFailure
-                                  : null,
-                            ),
+                          EmailInputField(
+                            errorText: state is InvalidCredientalsState
+                                ? state.emailFailure
+                                : null,
                             onChanged: (text) =>
                                 BlocProvider.of<SigninBloc>(context)
                                     .add(EmailChanged(text)),
                           ),
                           const SizedBox(height: 16),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.vpn_key_rounded),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16.0)),
-                              labelText: "Password",
-                              errorText: state is InvalidCredientalsState
-                                  ? state.passwordFailure
-                                  : null,
-                            ),
+                          PasswordInputField(
+                            labelText: "Password",
+                            errorText: state is InvalidCredientalsState
+                                ? state.passwordFailure
+                                : null,
                             onChanged: (text) =>
                                 BlocProvider.of<SigninBloc>(context)
                                     .add(PasswordChanged(text)),
-                            obscureText: true,
-                            enableSuggestions: false,
-                            autocorrect: false,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,

@@ -5,7 +5,7 @@ import 'package:tasky/core/error/failures.dart';
 class ValidateCredientals {
   Either<CredientalsValidationFailure, bool> execute({
     required String email,
-    required String password,
+    String? password,
     String? passwordRepeat,
   }) {
     var entity = UserCredientalsEntity(

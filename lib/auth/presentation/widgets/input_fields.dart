@@ -24,13 +24,11 @@ class PasswordInputField extends StatefulWidget {
   final String labelText;
   final Function(String) onChanged;
   final String? errorText;
-  final bool showPassword;
 
   const PasswordInputField(
       {required this.labelText,
       required this.onChanged,
       this.errorText,
-      this.showPassword = false,
       Key? key})
       : super(key: key);
 
@@ -47,8 +45,9 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
         prefixIcon: const Icon(Icons.vpn_key_rounded),
         suffixIcon: IconButton(
           onPressed: () => setState(() => showPassword = !showPassword),
-          icon: Icon(
-              showPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash),
+          icon: Icon(showPassword
+              ? Icons.visibility_outlined
+              : Icons.visibility_off_outlined),
         ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
         labelText: widget.labelText,

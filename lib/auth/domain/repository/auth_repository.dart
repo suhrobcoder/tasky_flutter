@@ -16,4 +16,5 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> googleSignIn();
   Future<Either<Failure, bool>> signOut();
   Future<bool> isFirstTIme();
+  Future<Either<Failure, bool>> passwordReset(String email);
 }

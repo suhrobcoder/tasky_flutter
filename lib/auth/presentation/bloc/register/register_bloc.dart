@@ -25,12 +25,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterEvent event,
   ) async* {
     if (event is NameChanged) {
-      name = "";
+      name = ""; // TODO
     } else if (event is EmailChanged) {
       email = event.email;
       var result = validateCredientals.execute(
           email: email, password: password, passwordRepeat: passwordRepeat);
-      print(result.toString());
       yield result.fold(
         (l) => InvalidCredientalsState(
             l.emailMsg, l.passwordMsg, l.passwordRepeatMsg),

@@ -9,10 +9,12 @@ import 'package:tasky/auth/domain/repository/auth_repository.dart';
 import 'package:tasky/auth/domain/usecase/check_authenticated.dart';
 import 'package:tasky/auth/domain/usecase/google_sign_in_user.dart';
 import 'package:tasky/auth/domain/usecase/is_first_time.dart';
+import 'package:tasky/auth/domain/usecase/password_reset.dart';
 import 'package:tasky/auth/domain/usecase/regiser_user.dart';
 import 'package:tasky/auth/domain/usecase/sign_in_user.dart';
 import 'package:tasky/auth/domain/usecase/sign_out.dart';
 import 'package:tasky/auth/domain/usecase/validate_credientals.dart';
+import 'package:tasky/auth/presentation/bloc/password_reset/passwordreset_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/signin/signin_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/splash/splash_bloc.dart';
@@ -26,6 +28,7 @@ Future setup() async {
       () => SplashBloc(isFirstTime: sl(), checkAuthenticated: sl()));
   sl.registerFactory<SigninBloc>(() => SigninBloc(sl(), sl(), sl()));
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl(), sl()));
+  sl.registerFactory<PasswordResetBloc>(() => PasswordResetBloc(sl(), sl()));
 
   // Use Cases
   sl.registerFactory<CheckAuthenticated>(() => CheckAuthenticated(sl()));
@@ -35,6 +38,7 @@ Future setup() async {
   sl.registerFactory<SignInUser>(() => SignInUser(sl()));
   sl.registerFactory<SignOut>(() => SignOut(sl<AuthRepository>()));
   sl.registerFactory<ValidateCredientals>(() => ValidateCredientals());
+  sl.registerFactory<PasswordReset>(() => PasswordReset(sl()));
 
   // Repository
   sl.registerFactory<AuthRepository>(
