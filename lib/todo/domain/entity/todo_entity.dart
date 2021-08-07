@@ -2,8 +2,8 @@ class TodoEntity {
   final int id;
   final String title;
   final String description;
-  final String categoryId;
-  final String date;
+  final int categoryId;
+  final int date;
   final bool notification;
   final bool priorityHigh;
   final bool done;
