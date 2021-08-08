@@ -24,9 +24,9 @@ class TodoModel extends TodoEntity {
             priorityHigh: map["priority_high"] == 1,
             done: map["done"] == 1);
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({int? newId}) {
     return {
-      "id": id,
+      "id": newId ?? id,
       "title": title,
       "description": description,
       "category_id": categoryId,

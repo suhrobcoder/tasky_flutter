@@ -24,4 +24,10 @@ class CredientalsValidationFailure extends Failure {
       : super([emailMsg, passwordMsg, passwordRepeatMsg]);
 }
 
+class DatabaseFailure extends Failure {
+  final String message;
+
+  DatabaseFailure(this.message) : super([message]);
+}
+
 const defaultErrorMsg = "Something went wrong";
