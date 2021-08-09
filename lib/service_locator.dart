@@ -19,6 +19,7 @@ import 'package:tasky/auth/presentation/bloc/password_reset/passwordreset_bloc.d
 import 'package:tasky/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/signin/signin_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/splash/splash_bloc.dart';
+import 'package:tasky/todo/data/datasource/db_data_source.dart';
 import 'package:tasky/todo/data/datasource/db_factory.dart';
 import 'package:tasky/todo/data/repository/todo_repository_impl.dart';
 import 'package:tasky/todo/domain/repository/todo_repository.dart';
@@ -85,5 +86,7 @@ Future setup() async {
   sl.registerFactory<TodoRepository>(() => TodoRepositoryImpl(sl()));
 
   // Data source
-  sl.registerFactoryAsync<Database>(() => DbFactory.database);
+  sl.registerFactory<DbDataSource>(() => DbDataSourceImpl(sl()));
+  Database database = await DbFactory.database;
+  sl.registerFactory<Database>(() => database);
 }

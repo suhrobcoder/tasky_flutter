@@ -4,7 +4,7 @@ extension DateTimeExt on DateTime {
   }
 
   DateTime getStartOfWeek() {
-    subtract(Duration(days: weekday - 1));
-    return DateTime(year, month, day);
+    var newDate = subtract(Duration(days: weekday - 1));
+    return DateTime(newDate.year, newDate.month, newDate.day);
   }
 }

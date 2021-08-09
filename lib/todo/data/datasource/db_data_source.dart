@@ -43,7 +43,7 @@ class DbDataSourceImpl implements DbDataSource {
   Future<Either<Failure, bool>> addTodo(TodoModel todo) async {
     try {
       var res = await database.insert(
-        categoryTableName,
+        tasksTableName,
         todo.toMap(newId: generateRandomId()),
       );
       if (res <= 0) {
@@ -51,7 +51,7 @@ class DbDataSourceImpl implements DbDataSource {
       }
       return const Right(true);
     } catch (e) {
-      return Left(DatabaseFailure("New task adding error"));
+      return Left(DatabaseFailure("New tasks adding error"));
     }
   }
 
@@ -62,7 +62,7 @@ class DbDataSourceImpl implements DbDataSource {
           .query("UPDATE $tasksTableName SET done=1 WHERE id=${todo.id}");
       return const Right(true);
     } catch (e) {
-      return Left(DatabaseFailure("Completing task error"));
+      return Left(DatabaseFailure("Completing tasks error"));
     }
   }
 
@@ -83,12 +83,11 @@ class DbDataSourceImpl implements DbDataSource {
   @override
   Future<Either<Failure, List<CategoryModel>>> getCategories() async {
     try {
-      var categories =
-          await database.query("SELECT COUNT() FROM $categoryTableName");
-      var allTasks = await database.query(
-          "SELECT COUNT(task.category_id) all_tasks, category.id FROM category LEFT JOIN task ON category.id = task.category_id GROUP BY category.id");
-      var doneTasks = await database.query(
-          "SELECT COUNT(task.category_id) done_tasks, category.id doneTasks FROM category LEFT JOIN task ON category.id = task.category_id WHERE task.done = 1 GROUP BY category.id");
+      var categories = await database.rawQuery("SELECT * FROM $categoryTableName");
+      var allTasks = await database.rawQuery(
+          "SELECT COUNT(tasks.category_id) all_tasks, category.id FROM category LEFT JOIN tasks ON category.id = tasks.category_id GROUP BY category.id");
+      var doneTasks = await database.rawQuery(
+          "SELECT COUNT(tasks.category_id) done_tasks, category.id FROM category LEFT JOIN tasks ON category.id = tasks.category_id WHERE tasks.done = 1 GROUP BY category.id");
       return Right(categories.map((e) {
         int? allTask = allTasks.firstWhere(
           (el) => el["id"] == e["id"],
@@ -109,13 +108,11 @@ class DbDataSourceImpl implements DbDataSource {
     DateRange? dateRange,
   ) async {
     try {
-      var where = category?.name ?? "";
+      var where = category != null ? "category_id = ?" : "";
       if (category != null && dateRange != null) {
         where += " AND ";
       }
-      where += dateRange != null
-          ? "date > ${dateRange.getStartTimeInMillis()} AND date < ${dateRange.getEndTimeInMillis()}"
-          : "";
+      where += dateRange != null ? "date > ? AND date < ?" : "";
       var whereArgs = [];
       if (category != null) {
         whereArgs.add(category.id);
@@ -127,9 +124,10 @@ class DbDataSourceImpl implements DbDataSource {
         ];
       }
       var res = await database.query(
-        "SELECT * FROM $tasksTableName ORDER BY date DESC",
+        tasksTableName,
         where: where,
         whereArgs: whereArgs,
+        orderBy: "date DESC",
       );
       return Right(res.map((e) => TodoModel.fromMap(e)).toList());
     } catch (error) {

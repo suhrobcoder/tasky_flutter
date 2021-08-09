@@ -11,7 +11,7 @@ class GetTodosForToday {
 
   GetTodosForToday(this.repository);
 
-  Future<Either<Failure, List<TodoEntity>>> execute(CategoryEntity? category) {
+  Future<Either<Failure, List<TodoEntity>>> execute({CategoryEntity? category}) {
     return repository.getTodosByCategoryAndForDate(
       category: category,
       dateRange: _getTodayRange(),
