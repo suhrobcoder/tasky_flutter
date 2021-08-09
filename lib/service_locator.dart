@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:tasky/auth/data/datasource/local_auth_datasource.dart';
 import 'package:tasky/auth/data/repository/auth_repository_impl.dart';
 import 'package:tasky/auth/domain/repository/auth_repository.dart';
@@ -18,6 +19,17 @@ import 'package:tasky/auth/presentation/bloc/password_reset/passwordreset_bloc.d
 import 'package:tasky/auth/presentation/bloc/register/register_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/signin/signin_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/splash/splash_bloc.dart';
+import 'package:tasky/todo/data/datasource/db_factory.dart';
+import 'package:tasky/todo/data/repository/todo_repository_impl.dart';
+import 'package:tasky/todo/domain/repository/todo_repository.dart';
+import 'package:tasky/todo/domain/usecase/add_category.dart';
+import 'package:tasky/todo/domain/usecase/add_todo.dart';
+import 'package:tasky/todo/domain/usecase/complete_todo.dart';
+import 'package:tasky/todo/domain/usecase/delete_todo.dart';
+import 'package:tasky/todo/domain/usecase/get_categories.dart';
+import 'package:tasky/todo/domain/usecase/get_todos_for_date.dart';
+import 'package:tasky/todo/domain/usecase/get_todos_for_today.dart';
+import 'package:tasky/todo/domain/usecase/get_todos_for_week.dart';
 
 final sl = GetIt.instance;
 
@@ -53,4 +65,21 @@ Future setup() async {
   sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
   var sharedPref = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPref);
+
+  // Todo_Layer
+  // Use Cases
+  sl.registerFactory<AddCategory>(() => AddCategory(sl()));
+  sl.registerFactory<AddTodo>(() => AddTodo(sl()));
+  sl.registerFactory<CompleteTodo>(() => CompleteTodo(sl()));
+  sl.registerFactory<DeleteTodo>(() => DeleteTodo(sl()));
+  sl.registerFactory<GetCategories>(() => GetCategories(sl()));
+  sl.registerFactory<GetTodosForDate>(() => GetTodosForDate(sl()));
+  sl.registerFactory<GetTodosForToday>(() => GetTodosForToday(sl()));
+  sl.registerFactory<GetTodosForWeek>(() => GetTodosForWeek(sl()));
+
+  // Repository
+  sl.registerFactory<TodoRepository>(() => TodoRepositoryImpl(sl()));
+
+  // Data source
+  sl.registerFactoryAsync<Database>(() => DbFactory.database);
 }
