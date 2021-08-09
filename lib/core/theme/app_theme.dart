@@ -14,6 +14,7 @@ ThemeData appTheme = ThemeData(
 
 const primaryColor = Color(0xFF00E1B5);
 const subtitleTextColor = Color(0xFF8B8B8B);
+const lightGrey = Color(0xFFCECECE);
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[0.05];

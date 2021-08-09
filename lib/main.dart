@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       routes: routes,
-      initialRoute: splashPage,
+      initialRoute: homePage,
     );
   }
 }

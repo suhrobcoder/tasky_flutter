@@ -30,6 +30,7 @@ import 'package:tasky/todo/domain/usecase/get_categories.dart';
 import 'package:tasky/todo/domain/usecase/get_todos_for_date.dart';
 import 'package:tasky/todo/domain/usecase/get_todos_for_today.dart';
 import 'package:tasky/todo/domain/usecase/get_todos_for_week.dart';
+import 'package:tasky/todo/presentation/pages/home/bloc/home_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -67,6 +68,9 @@ Future setup() async {
   sl.registerLazySingleton<SharedPreferences>(() => sharedPref);
 
   // Todo_Layer
+  // Bloc
+  sl.registerFactory<HomeBloc>(() => HomeBloc());
+
   // Use Cases
   sl.registerFactory<AddCategory>(() => AddCategory(sl()));
   sl.registerFactory<AddTodo>(() => AddTodo(sl()));

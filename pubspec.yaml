@@ -50,3 +50,4 @@ flutter:
           weight: 600
   assets:
     - assets/images/
+    - assets/icons/
