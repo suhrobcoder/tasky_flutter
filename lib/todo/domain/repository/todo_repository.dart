@@ -5,13 +5,13 @@ import 'package:tasky/todo/domain/entity/category_entity.dart';
 import 'package:tasky/todo/domain/entity/todo_entity.dart';
 
 abstract class TodoRepository {
-  Future<Either<Failure, List<CategoryEntity>>> getCategories();
-  Future<Either<Failure, List<TodoEntity>>> getTodosByCategoryAndForDate({
+  Stream<List<CategoryEntity>> getCategories();
+  Stream<List<TodoEntity>> getTodosByCategoryAndForDate({
     CategoryEntity? category,
     DateRange? dateRange,
   });
-  Future<Either<Failure, bool>> addTodo(TodoEntity todo);
-  Future<Either<Failure, bool>> addCategory(CategoryEntity category);
-  Future<Either<Failure, bool>> completeTodo(TodoEntity todo);
-  Future<Either<Failure, bool>> deleteTodo(TodoEntity todo);
+  Future<void> addTodo(TodoEntity todo);
+  Future<void> addCategory(CategoryEntity category);
+  Future<void> completeTodo(TodoEntity todo);
+  Future<void> deleteTodo(TodoEntity todo);
 }

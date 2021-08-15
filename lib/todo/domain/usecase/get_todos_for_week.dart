@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:tasky/core/error/failures.dart';
 import 'package:tasky/core/extensions/datetime_ext.dart';
 import 'package:tasky/core/models/date_range.dart';
 import 'package:tasky/todo/domain/entity/category_entity.dart';
@@ -11,7 +9,7 @@ class GetTodosForWeek {
 
   GetTodosForWeek(this.repository);
 
-  Future<Either<Failure, List<TodoEntity>>> execute({
+  Stream<List<TodoEntity>> execute({
     CategoryEntity? category,
   }) {
     return repository.getTodosByCategoryAndForDate(

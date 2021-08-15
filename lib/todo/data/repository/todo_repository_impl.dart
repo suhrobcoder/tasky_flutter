@@ -1,11 +1,8 @@
-import 'package:tasky/todo/data/datasource/db_data_source.dart';
-import 'package:tasky/todo/data/model/category_model.dart';
-import 'package:tasky/todo/data/model/todo_model.dart';
-import 'package:tasky/todo/domain/entity/todo_entity.dart';
-import 'package:tasky/todo/domain/entity/category_entity.dart';
 import 'package:tasky/core/models/date_range.dart';
-import 'package:tasky/core/error/failures.dart';
-import 'package:dartz/dartz.dart';
+import 'package:tasky/todo/data/datasource/db_data_source.dart';
+import 'package:tasky/todo/data/datasource/mapper.dart';
+import 'package:tasky/todo/domain/entity/category_entity.dart';
+import 'package:tasky/todo/domain/entity/todo_entity.dart';
 import 'package:tasky/todo/domain/repository/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
@@ -14,38 +11,50 @@ class TodoRepositoryImpl implements TodoRepository {
   TodoRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, bool>> addCategory(CategoryEntity category) {
-    return dataSource.addCategory(CategoryModel.fromEntity(category));
+  Future<void> addCategory(CategoryEntity category) {
+    return dataSource.addCategory(category.toDbInsertModel());
   }
 
   @override
-  Future<Either<Failure, bool>> addTodo(TodoEntity todo) {
-    return dataSource.addTodo(TodoModel.fromEntity(todo));
+  Future<void> addTodo(TodoEntity todo) {
+    return dataSource.addTodo(todo.toDbInsertModel());
   }
 
   @override
-  Future<Either<Failure, bool>> completeTodo(TodoEntity todo) {
-    return dataSource.completeTodo(TodoModel.fromEntity(todo));
+  Future<void> completeTodo(TodoEntity todo) {
+    return dataSource.completeTodo(todo.toDbModel());
   }
 
   @override
-  Future<Either<Failure, bool>> deleteTodo(TodoEntity todo) {
-    return dataSource.deleteTodo(TodoModel.fromEntity(todo));
+  Future<void> deleteTodo(TodoEntity todo) {
+    return dataSource.deleteTodo(todo.toDbModel());
   }
 
   @override
-  Future<Either<Failure, List<CategoryEntity>>> getCategories() {
-    return dataSource.getCategories();
+  Stream<List<CategoryEntity>> getCategories() {
+    return dataSource.getCategories().map(
+          (event) => event
+              .map(
+                (e) => CategoryEntityMapper.fromDbModel(e),
+              )
+              .toList()
+        );
   }
 
   @override
-  Future<Either<Failure, List<TodoEntity>>> getTodosByCategoryAndForDate({
-    CategoryEntity? category,
-    DateRange? dateRange,
-  }) {
-    return dataSource.getTodosByCategoryAndForDate(
-      category != null ? CategoryModel.fromEntity(category) : null,
-      dateRange,
-    );
+  Stream<List<TodoEntity>> getTodosByCategoryAndForDate(
+      {CategoryEntity? category, DateRange? dateRange}) {
+    return dataSource
+        .getTodosByCategoryAndForDate(
+          category?.toDbModel(),
+          dateRange,
+        )
+        .map(
+          (event) => event
+              .map(
+                (e) => TodoEntityMapper.fromDbModel(e),
+              )
+              .toList(),
+        );
   }
 }
