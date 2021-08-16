@@ -74,7 +74,7 @@ Future setup() async {
   // Bloc
   sl.registerFactory<HomeBloc>(() => HomeBloc());
   sl.registerFactory<HomeTodoListBloc>(
-      () => HomeTodoListBloc(sl(), sl(), sl(), sl(), sl(), sl()));
+      () => HomeTodoListBloc(sl(), sl(), sl(), sl(), sl()));
 
   // Use Cases
   sl.registerFactory<AddCategory>(() => AddCategory(sl()));

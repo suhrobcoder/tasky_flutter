@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/routes/routes.dart';
 import 'package:tasky/core/theme/app_theme.dart';
+import 'package:tasky/todo/presentation/pages/home_todo_list/home_todo_list_page.dart';
 
 import '../../../../service_locator.dart';
 import 'bloc/home_bloc.dart';
@@ -20,7 +21,7 @@ class HomePage extends StatelessWidget {
             body: IndexedStack(
               index: state.pageIndex,
               children: const [
-                Center(child: Text("Todo List")),
+                HomeTodoListPage(),
                 Center(child: Text("Calendar")),
                 Center(child: Text("Notifications")),
                 Center(child: Text("Profile")),
