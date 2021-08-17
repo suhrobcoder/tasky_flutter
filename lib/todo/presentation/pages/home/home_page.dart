@@ -19,19 +19,36 @@ class HomePage extends StatelessWidget {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return Scaffold(
-            body: IndexedStack(
-              index: state.pageIndex,
-              children: const [
-                HomeTodoListPage(),
-                CalendarPage(),
-                Center(child: Text("Notifications")),
-                Center(child: Text("Profile")),
+            body: Stack(
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: IndexedStack(
+                        index: state.pageIndex,
+                        children: const [
+                          HomeTodoListPage(),
+                          CalendarPage(),
+                          Center(child: Text("Notifications")),
+                          Center(child: Text("Profile")),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 56),
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: HomeBottomNavBar(
+                    onSelect: (index) =>
+                        BlocProvider.of<HomeBloc>(context).add(PageSelectEvent(index)),
+                    onAddClick: () => Navigator.pushNamed(context, newTaskPage),
+                    selectedIndex: state.pageIndex,
+                  ),
+                ),
               ],
-            ),
-            bottomNavigationBar: HomeBottomNavBar(
-              onSelect: (index) => BlocProvider.of<HomeBloc>(context).add(PageSelectEvent(index)),
-              onAddClick: () => Navigator.pushNamed(context, newTaskPage),
-              selectedIndex: state.pageIndex,
             ),
           );
         },
@@ -52,15 +69,28 @@ class HomeBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Stack(
         children: [
-          HomeBottomNavBarItem("home", selectedIndex == 0, () => onSelect(0)),
-          HomeBottomNavBarItem("calendar", selectedIndex == 1, () => onSelect(1)),
-          AddButton(() => onAddClick()),
-          HomeBottomNavBarItem("notification", selectedIndex == 2, () => onSelect(2)),
-          HomeBottomNavBarItem("profile", selectedIndex == 3, () => onSelect(3)),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: Container(
+              height: 56,
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              HomeBottomNavBarItem("home", selectedIndex == 0, () => onSelect(0)),
+              HomeBottomNavBarItem("calendar", selectedIndex == 1, () => onSelect(1)),
+              AddButton(() => onAddClick()),
+              HomeBottomNavBarItem("notification", selectedIndex == 2, () => onSelect(2)),
+              HomeBottomNavBarItem("profile", selectedIndex == 3, () => onSelect(3)),
+            ],
+          ),
         ],
       ),
     );
