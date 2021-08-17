@@ -29,9 +29,10 @@ import 'package:tasky/todo/domain/usecase/add_todo.dart';
 import 'package:tasky/todo/domain/usecase/complete_todo.dart';
 import 'package:tasky/todo/domain/usecase/delete_todo.dart';
 import 'package:tasky/todo/domain/usecase/get_categories.dart';
-import 'package:tasky/todo/domain/usecase/get_todos_for_date.dart';
+import 'package:tasky/todo/domain/usecase/get_category.dart';
+import 'package:tasky/todo/domain/usecase/get_todos_by_category.dart';
 import 'package:tasky/todo/domain/usecase/get_todos_for_today.dart';
-import 'package:tasky/todo/domain/usecase/get_todos_for_week.dart';
+import 'package:tasky/todo/presentation/pages/calendar/bloc/calendar_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home_todo_list/bloc/hometodolist_bloc.dart';
 
@@ -40,8 +41,7 @@ final sl = GetIt.instance;
 Future setup() async {
   // Auth
   // Bloc
-  sl.registerFactory<SplashBloc>(
-      () => SplashBloc(isFirstTime: sl(), checkAuthenticated: sl()));
+  sl.registerFactory<SplashBloc>(() => SplashBloc(isFirstTime: sl(), checkAuthenticated: sl()));
   sl.registerFactory<SigninBloc>(() => SigninBloc(sl(), sl(), sl()));
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl(), sl()));
   sl.registerFactory<PasswordResetBloc>(() => PasswordResetBloc(sl(), sl()));
@@ -57,8 +57,7 @@ Future setup() async {
   sl.registerFactory<PasswordReset>(() => PasswordReset(sl()));
 
   // Repository
-  sl.registerFactory<AuthRepository>(
-      () => AuthRepositoryImpl(sl(), sl(), sl(), sl()));
+  sl.registerFactory<AuthRepository>(() => AuthRepositoryImpl(sl(), sl(), sl(), sl()));
 
   // Data source
   sl.registerFactory<LocalAuthDataSource>(() => LocalAuthDataSourceImpl(sl()));
@@ -73,8 +72,8 @@ Future setup() async {
   // Todo_Layer
   // Bloc
   sl.registerFactory<HomeBloc>(() => HomeBloc());
-  sl.registerFactory<HomeTodoListBloc>(
-      () => HomeTodoListBloc(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<HomeTodoListBloc>(() => HomeTodoListBloc(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<CalendarBloc>(() => CalendarBloc(sl(), sl(), sl(), sl()));
 
   // Use Cases
   sl.registerFactory<AddCategory>(() => AddCategory(sl()));
@@ -82,9 +81,9 @@ Future setup() async {
   sl.registerFactory<CompleteTodo>(() => CompleteTodo(sl()));
   sl.registerFactory<DeleteTodo>(() => DeleteTodo(sl()));
   sl.registerFactory<GetCategories>(() => GetCategories(sl()));
-  sl.registerFactory<GetTodosForDate>(() => GetTodosForDate(sl()));
+  sl.registerFactory<GetTodosByCategory>(() => GetTodosByCategory(sl()));
   sl.registerFactory<GetTodosForToday>(() => GetTodosForToday(sl()));
-  sl.registerFactory<GetTodosForWeek>(() => GetTodosForWeek(sl()));
+  sl.registerFactory<GetCategory>(() => GetCategory(sl()));
 
   // Repository
   sl.registerFactory<TodoRepository>(() => TodoRepositoryImpl(sl()));

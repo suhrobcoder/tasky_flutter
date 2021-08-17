@@ -13,10 +13,11 @@ abstract class DbDataSource {
 
   Future<void> deleteTodo(Todo todo);
 
+  Stream<CategoryWithCount> getCategory(String name);
+
   Stream<List<CategoryWithCount>> getCategories();
 
-  Stream<List<Todo>> getTodosByCategoryAndForDate(
-      Category? category, DateRange? dateRange);
+  Stream<List<Todo>> getTodosByCategoryAndForDate(Category? category, DateRange? dateRange);
 }
 
 class DbDataSourceImpl implements DbDataSource {
@@ -51,8 +52,12 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Stream<List<Todo>> getTodosByCategoryAndForDate(
-      Category? category, DateRange? dateRange) {
+  Stream<CategoryWithCount> getCategory(String name) {
+    return categoryDao.getCategory(name);
+  }
+
+  @override
+  Stream<List<Todo>> getTodosByCategoryAndForDate(Category? category, DateRange? dateRange) {
     return todoDao.todosByCategoryAndDateRange(category, dateRange);
   }
 }

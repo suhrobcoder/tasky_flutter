@@ -4,14 +4,16 @@ import 'package:tasky/core/theme/app_theme.dart';
 class ProgressWidget extends StatelessWidget {
   final Color color;
   final double progress;
-  const ProgressWidget({required this.color, required this.progress, Key? key})
+  final Size? size;
+  const ProgressWidget(
+      {required this.color, required this.progress, this.size, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 90,
-      height: 8,
+      width: size?.width ?? 90,
+      height: size?.height ?? 8,
       child: CustomPaint(
         painter: ProgressPainer(
           color: color,

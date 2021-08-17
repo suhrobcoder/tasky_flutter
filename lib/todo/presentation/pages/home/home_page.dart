@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/routes/routes.dart';
 import 'package:tasky/core/theme/app_theme.dart';
+import 'package:tasky/todo/presentation/pages/calendar/calendar_page.dart';
 import 'package:tasky/todo/presentation/pages/home_todo_list/home_todo_list_page.dart';
 
 import '../../../../service_locator.dart';
@@ -22,14 +23,13 @@ class HomePage extends StatelessWidget {
               index: state.pageIndex,
               children: const [
                 HomeTodoListPage(),
-                Center(child: Text("Calendar")),
+                CalendarPage(),
                 Center(child: Text("Notifications")),
                 Center(child: Text("Profile")),
               ],
             ),
             bottomNavigationBar: HomeBottomNavBar(
-              onSelect: (index) => BlocProvider.of<HomeBloc>(context)
-                  .add(PageSelectEvent(index)),
+              onSelect: (index) => BlocProvider.of<HomeBloc>(context).add(PageSelectEvent(index)),
               onAddClick: () => Navigator.pushNamed(context, newTaskPage),
               selectedIndex: state.pageIndex,
             ),
@@ -45,10 +45,7 @@ class HomeBottomNavBar extends StatelessWidget {
   final Function onAddClick;
   final int selectedIndex;
   const HomeBottomNavBar(
-      {required this.onSelect,
-      required this.onAddClick,
-      required this.selectedIndex,
-      Key? key})
+      {required this.onSelect, required this.onAddClick, required this.selectedIndex, Key? key})
       : super(key: key);
 
   @override
@@ -60,13 +57,10 @@ class HomeBottomNavBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           HomeBottomNavBarItem("home", selectedIndex == 0, () => onSelect(0)),
-          HomeBottomNavBarItem(
-              "calendar", selectedIndex == 1, () => onSelect(1)),
+          HomeBottomNavBarItem("calendar", selectedIndex == 1, () => onSelect(1)),
           AddButton(() => onAddClick()),
-          HomeBottomNavBarItem(
-              "notification", selectedIndex == 2, () => onSelect(2)),
-          HomeBottomNavBarItem(
-              "profile", selectedIndex == 3, () => onSelect(3)),
+          HomeBottomNavBarItem("notification", selectedIndex == 2, () => onSelect(2)),
+          HomeBottomNavBarItem("profile", selectedIndex == 3, () => onSelect(3)),
         ],
       ),
     );
@@ -77,8 +71,7 @@ class HomeBottomNavBarItem extends StatelessWidget {
   final String icon;
   final bool selected;
   final Function onClick;
-  const HomeBottomNavBarItem(this.icon, this.selected, this.onClick, {Key? key})
-      : super(key: key);
+  const HomeBottomNavBarItem(this.icon, this.selected, this.onClick, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

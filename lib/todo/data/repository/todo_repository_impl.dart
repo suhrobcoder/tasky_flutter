@@ -32,13 +32,11 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Stream<List<CategoryEntity>> getCategories() {
-    return dataSource.getCategories().map(
-          (event) => event
-              .map(
-                (e) => CategoryEntityMapper.fromDbModel(e),
-              )
-              .toList()
-        );
+    return dataSource.getCategories().map((event) => event
+        .map(
+          (e) => CategoryEntityMapper.fromDbModel(e),
+        )
+        .toList());
   }
 
   @override
@@ -56,5 +54,10 @@ class TodoRepositoryImpl implements TodoRepository {
               )
               .toList(),
         );
+  }
+
+  @override
+  Stream<CategoryEntity> getCategory(String name) {
+    return dataSource.getCategory(name).map((event) => CategoryEntityMapper.fromDbModel(event));
   }
 }

@@ -1,3 +1,5 @@
+import 'package:tasky/core/extensions/datetime_ext.dart';
+
 class DateRange {
   final DateTime startTime;
   final DateTime endTime;
@@ -9,6 +11,14 @@ class DateRange {
     int endTimeInMillis,
   )   : startTime = DateTime.fromMillisecondsSinceEpoch(startTimeInMillis),
         endTime = DateTime.fromMillisecondsSinceEpoch(endTimeInMillis);
+
+  DateRange.today()
+      : startTime = DateTime.now().getStartOfDay(),
+        endTime = DateTime.now().getStartOfDay().add(Duration(days: 1));
+
+  DateRange.thisWeek()
+      : startTime = DateTime.now().getStartOfWeek(),
+        endTime = DateTime.now().getStartOfDay().add(Duration(days: 7));
 
   int getStartTimeInMillis() {
     return startTime.millisecondsSinceEpoch;

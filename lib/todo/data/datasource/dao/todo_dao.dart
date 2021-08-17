@@ -13,11 +13,9 @@ class TodoDao extends DatabaseAccessor<TodoDatabase> with _$TodoDaoMixin {
 
   Future<void> insertTodo(TodosCompanion todo) => into(todos).insert(todo);
   Future<void> deleteTodo(Todo todo) => delete(todos).delete(todo);
-  Future<void> completeTodo(Todo todo) =>
-      update(todos).replace(todo.copyWith(done: 1));
+  Future<void> completeTodo(Todo todo) => update(todos).replace(todo.copyWith(done: 1));
 
-  Stream<List<Todo>> todosByCategoryAndDateRange(
-      Category? category, DateRange? dateRange) {
+  Stream<List<Todo>> todosByCategoryAndDateRange(Category? category, DateRange? dateRange) {
     var query = select(todos)
       ..orderBy([
         (t) => OrderingTerm.asc(t.date),
