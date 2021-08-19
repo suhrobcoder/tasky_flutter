@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                   child: HomeBottomNavBar(
                     onSelect: (index) =>
                         BlocProvider.of<HomeBloc>(context).add(PageSelectEvent(index)),
-                    onAddClick: () => Navigator.pushNamed(context, newTaskPage),
+                    onAddClick: () => Navigator.pushNamed(context, addTodoPage),
                     selectedIndex: state.pageIndex,
                   ),
                 ),

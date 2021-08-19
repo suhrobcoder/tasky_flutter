@@ -12,10 +12,14 @@ extension DateTimeExt on DateTime {
     return year == other.year && month == other.month && day == other.day;
   }
 
-  String toPrettyString() {
+  String toPrettyString({bool withTime = false}) {
     var res = "${months[month - 1]} $day";
     if (DateTime.now().year != year) {
       res += " $year";
+    }
+    if (withTime) {
+      res += ". $hour:";
+      res += minute > 9 ? "$minute" : "0$minute";
     }
     return res;
   }

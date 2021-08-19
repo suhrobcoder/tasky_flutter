@@ -32,6 +32,7 @@ import 'package:tasky/todo/domain/usecase/get_categories.dart';
 import 'package:tasky/todo/domain/usecase/get_category.dart';
 import 'package:tasky/todo/domain/usecase/get_todos_by_category.dart';
 import 'package:tasky/todo/domain/usecase/get_todos_for_today.dart';
+import 'package:tasky/todo/presentation/pages/add_todo/bloc/add_todo_bloc.dart';
 import 'package:tasky/todo/presentation/pages/calendar/bloc/calendar_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home_todo_list/bloc/hometodolist_bloc.dart';
@@ -74,6 +75,7 @@ Future setup() async {
   sl.registerFactory<HomeBloc>(() => HomeBloc());
   sl.registerFactory<HomeTodoListBloc>(() => HomeTodoListBloc(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<CalendarBloc>(() => CalendarBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory<AddTodoBloc>(() => AddTodoBloc(sl(), sl()));
 
   // Use Cases
   sl.registerFactory<AddCategory>(() => AddCategory(sl()));

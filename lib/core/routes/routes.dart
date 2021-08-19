@@ -4,6 +4,7 @@ import 'package:tasky/auth/presentation/pages/password_reset_page.dart';
 import 'package:tasky/auth/presentation/pages/signin_page.dart';
 import 'package:tasky/auth/presentation/pages/register_page.dart';
 import 'package:tasky/auth/presentation/pages/splash_page.dart';
+import 'package:tasky/todo/presentation/pages/add_todo/add_todo_page.dart';
 import 'package:tasky/todo/presentation/pages/home/home_page.dart';
 
 var routes = {
@@ -13,7 +14,7 @@ var routes = {
   forgotPasswordPage: (_) => const PasswordResetPage(),
   registerPage: (_) => const RegisterPage(),
   homePage: (_) => const HomePage(),
-  newTaskPage: (_) => const Text("New Task"),
+  addTodoPage: (_) => const AddTodoPage(),
 };
 
 const splashPage = "splash";
@@ -22,4 +23,4 @@ const signInPage = "sign_in";
 const forgotPasswordPage = "forgot_password";
 const registerPage = "register";
 const homePage = "home";
-const newTaskPage = "new_task";
+const addTodoPage = "add_todo";
