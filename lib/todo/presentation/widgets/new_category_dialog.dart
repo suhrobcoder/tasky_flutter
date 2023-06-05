@@ -9,10 +9,10 @@ class NewCategoryDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  _NewCategoryDialogState createState() => _NewCategoryDialogState();
+  NewCategoryDialogState createState() => NewCategoryDialogState();
 }
 
-class _NewCategoryDialogState extends State<NewCategoryDialog> {
+class NewCategoryDialogState extends State<NewCategoryDialog> {
   final TextEditingController textController = TextEditingController();
 
   var selectedColor = colors[0];

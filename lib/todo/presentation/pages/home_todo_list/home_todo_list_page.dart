@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/constants/size.dart';
+import 'package:tasky/di/init_get_it.dart';
 import 'package:tasky/todo/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home_todo_list/bloc/hometodolist_bloc.dart';
 import 'package:tasky/todo/presentation/widgets/category_card.dart';
 import 'package:tasky/todo/presentation/widgets/new_category_dialog.dart';
 import 'package:tasky/todo/presentation/widgets/todo_dialog.dart';
 import 'package:tasky/todo/presentation/widgets/todo_item.dart';
-
-import 'package:tasky/service_locator.dart';
 
 class HomeTodoListPage extends StatelessWidget {
   const HomeTodoListPage({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class HomeTodoListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocProvider(
-        create: (context) => sl<HomeTodoListBloc>(),
+        create: (context) => getIt<HomeTodoListBloc>(),
         child: BlocConsumer<HomeTodoListBloc, HomeTodoListState>(
           listener: (context, state) {
             if (state is ShowNewCategoryDialogState) {

@@ -35,7 +35,9 @@ class UserCredientalsEntity extends Equatable {
       return const Right(true);
     }
     return Left(CredientalsValidationFailure(
-        emailFailure, passwordFailure, passwordRepeatFailure));
+        emailMsg: emailFailure,
+        passwordMsg: passwordFailure,
+        passwordRepeatMsg: passwordRepeatFailure));
   }
 }
 

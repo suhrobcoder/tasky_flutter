@@ -14,11 +14,11 @@ class DateRange {
 
   DateRange.today()
       : startTime = DateTime.now().getStartOfDay(),
-        endTime = DateTime.now().getStartOfDay().add(Duration(days: 1));
+        endTime = DateTime.now().getStartOfDay().add(const Duration(days: 1));
 
   DateRange.thisWeek()
       : startTime = DateTime.now().getStartOfWeek(),
-        endTime = DateTime.now().getStartOfDay().add(Duration(days: 7));
+        endTime = DateTime.now().getStartOfDay().add(const Duration(days: 7));
 
   int getStartTimeInMillis() {
     return startTime.millisecondsSinceEpoch;

@@ -1,4 +1,5 @@
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tasky/todo/data/datasource/category_with_count.dart';
 import 'package:tasky/todo/data/datasource/table/todos_table.dart';
 import 'package:tasky/todo/data/datasource/todo_database.dart';
@@ -6,7 +7,8 @@ import 'package:tasky/todo/data/datasource/table/categorys_table.dart';
 
 part 'category_dao.g.dart';
 
-@UseDao(tables: [Categorys, Todos])
+@DriftAccessor(tables: [Categorys, Todos])
+@injectable
 class CategoryDao extends DatabaseAccessor<TodoDatabase>
     with _$CategoryDaoMixin {
   final TodoDatabase db;
@@ -29,7 +31,7 @@ class CategoryDao extends DatabaseAccessor<TodoDatabase>
         var row = rows[0];
         return CategoryWithCount(
           row.readTable(categorys),
-          row.read(allTasks),
+          row.read(allTasks) ?? 0,
           row.read(doneTasks),
         );
       },
@@ -48,7 +50,7 @@ class CategoryDao extends DatabaseAccessor<TodoDatabase>
               .map(
                 (row) => CategoryWithCount(
                   row.readTable(categorys),
-                  row.read(allTasks),
+                  row.read(allTasks) ?? 0,
                   row.read(doneTasks),
                 ),
               )

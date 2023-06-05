@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,8 +5,8 @@ import 'package:tasky/auth/presentation/bloc/signin/signin_bloc.dart';
 import 'package:tasky/auth/presentation/widgets/input_fields.dart';
 import 'package:tasky/core/constants/size.dart';
 import 'package:tasky/core/routes/routes.dart';
+import 'package:tasky/di/init_get_it.dart';
 import 'package:tasky/global_widgets/buttons.dart';
-import 'package:tasky/service_locator.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<SigninBloc>(),
+      create: (context) => getIt<SigninBloc>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(

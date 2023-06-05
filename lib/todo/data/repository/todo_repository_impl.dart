@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:tasky/core/models/date_range.dart';
 import 'package:tasky/todo/data/datasource/db_data_source.dart';
 import 'package:tasky/todo/data/datasource/mapper.dart';
@@ -5,6 +6,7 @@ import 'package:tasky/todo/domain/entity/category_entity.dart';
 import 'package:tasky/todo/domain/entity/todo_entity.dart';
 import 'package:tasky/todo/domain/repository/todo_repository.dart';
 
+@Injectable(as: TodoRepository)
 class TodoRepositoryImpl implements TodoRepository {
   final DbDataSource dataSource;
 
@@ -58,6 +60,8 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Stream<CategoryEntity> getCategory(String name) {
-    return dataSource.getCategory(name).map((event) => CategoryEntityMapper.fromDbModel(event));
+    return dataSource
+        .getCategory(name)
+        .map((event) => CategoryEntityMapper.fromDbModel(event));
   }
 }

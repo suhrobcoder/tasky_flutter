@@ -1,4 +1,4 @@
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:drift/drift.dart';
 
 class Todos extends Table {
   IntColumn get id => integer().autoIncrement()();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/splash/splash_bloc.dart';
 import 'package:tasky/core/routes/routes.dart';
-import 'package:tasky/service_locator.dart';
+import 'package:tasky/di/init_get_it.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<SplashBloc>()..add(CheckEvent()),
+      create: (context) => getIt<SplashBloc>()..add(CheckEvent()),
       child: Scaffold(
         body: BlocListener<SplashBloc, SplashState>(
           listener: (context, state) {

@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalAuthDataSource {
@@ -12,6 +13,7 @@ const userNameKey = "user_name";
 const userIdKey = "user_id";
 const firstTimeKey = "first_time";
 
+@Injectable(as: LocalAuthDataSource)
 class LocalAuthDataSourceImpl implements LocalAuthDataSource {
   final SharedPreferences _sharedPreferences;
 

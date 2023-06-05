@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:tasky/auth/domain/repository/auth_repository.dart';
 import 'package:tasky/auth/domain/usecase/check_authenticated.dart';
 
-import 'mock_generator.mocks.dart';
+class MockAuthRepository extends Mock implements AuthRepository {}
 
 void main() {
   late CheckAuthenticated checkAuthenticated;
@@ -17,11 +18,11 @@ void main() {
   test(
     "should return true if user authenticated",
     () {
-      when(mockAuthRepository.checkUserAuthenticated())
+      when(() => mockAuthRepository.checkUserAuthenticated())
           .thenAnswer((_) => const Right(true));
       final result = checkAuthenticated.execute();
       expect(result, const Right(true));
-      verify(mockAuthRepository.checkUserAuthenticated());
+      verify(() => mockAuthRepository.checkUserAuthenticated());
       verifyNoMoreInteractions(mockAuthRepository);
     },
   );
@@ -29,11 +30,11 @@ void main() {
   test(
     "should return false if user not authenticated",
     () {
-      when(mockAuthRepository.checkUserAuthenticated())
+      when(() => mockAuthRepository.checkUserAuthenticated())
           .thenAnswer((_) => const Right(false));
       final result = checkAuthenticated.execute();
       expect(result, const Right(false));
-      verify(mockAuthRepository.checkUserAuthenticated());
+      verify(() => mockAuthRepository.checkUserAuthenticated());
       verifyNoMoreInteractions(mockAuthRepository);
     },
   );

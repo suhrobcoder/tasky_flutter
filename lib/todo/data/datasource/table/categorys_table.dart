@@ -1,4 +1,4 @@
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:drift/drift.dart';
 
 class Categorys extends Table {
   TextColumn get name => text()();

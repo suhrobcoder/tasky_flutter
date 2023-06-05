@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tasky/auth/domain/entity/user_credientals_entity.dart';
 import 'package:tasky/core/error/failures.dart';
 import 'package:tasky/auth/domain/entity/user_entity.dart';
 import 'package:tasky/auth/domain/repository/auth_repository.dart';
 
+@injectable
 class RegisterUser {
   final AuthRepository authRepository;
 

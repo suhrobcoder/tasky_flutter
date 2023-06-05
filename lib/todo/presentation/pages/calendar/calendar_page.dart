@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tasky/core/constants/size.dart';
 import 'package:tasky/core/theme/app_theme.dart';
-import 'package:tasky/service_locator.dart';
+import 'package:tasky/di/init_get_it.dart';
 import 'package:tasky/todo/domain/entity/category_entity.dart';
 import 'package:tasky/todo/presentation/pages/calendar/bloc/calendar_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home/bloc/home_bloc.dart';
@@ -18,22 +17,25 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<CalendarBloc>(),
+      create: (context) => getIt<CalendarBloc>(),
       child: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, homeState) {
-            BlocProvider.of<CalendarBloc>(context).add(InitialEvent(homeState.category));
+            BlocProvider.of<CalendarBloc>(context)
+                .add(InitialEvent(homeState.category));
             return BlocBuilder<CalendarBloc, CalendarState>(
               builder: (context, state) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (homeState.category != null) CategoryHeader(homeState.category!),
+                          if (homeState.category != null)
+                            CategoryHeader(homeState.category!),
                           const SizedBox(height: 32),
                           TaskyCalendar(
                             events: state.todos
@@ -42,7 +44,8 @@ class CalendarPage extends StatelessWidget {
                                 .toList(),
                             selectedDate: state.selectedDate,
                             onDateSelected: (date) =>
-                                BlocProvider.of<CalendarBloc>(context).add(DateSelected(date)),
+                                BlocProvider.of<CalendarBloc>(context)
+                                    .add(DateSelected(date)),
                           ),
                         ],
                       ),
@@ -50,7 +53,8 @@ class CalendarPage extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         controller: ScrollController(),
-                        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: defaultPadding),
                         itemCount: state.todos.length,
                         itemBuilder: (context, index) {
                           var todosByDate = state.todos[index];
@@ -58,27 +62,35 @@ class CalendarPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
                                 child: Text(
                                   todosByDate.dateTime.toPrettyString(),
-                                  style: TextStyle(fontSize: 18, color: Colors.black87),
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.black87),
                                 ),
                               ),
                               ...todosByDate.todos
                                   .map(
                                     (todo) => Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 4),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
                                       child: TodoItem(
                                         title: todo.title,
                                         subtitle: todo.description,
                                         done: todo.done,
                                         date: todo.date,
-                                        onClick: () => BlocProvider.of<CalendarBloc>(context)
-                                            .add(TodoClickEvent(todo)),
-                                        onClickDelete: () => BlocProvider.of<CalendarBloc>(context)
-                                            .add(DeleteTodoEvent(todo)),
+                                        onClick: () =>
+                                            BlocProvider.of<CalendarBloc>(
+                                                    context)
+                                                .add(TodoClickEvent(todo)),
+                                        onClickDelete: () =>
+                                            BlocProvider.of<CalendarBloc>(
+                                                    context)
+                                                .add(DeleteTodoEvent(todo)),
                                         onClickComplete: () =>
-                                            BlocProvider.of<CalendarBloc>(context)
+                                            BlocProvider.of<CalendarBloc>(
+                                                    context)
                                                 .add(CompleteTodoEvent(todo)),
                                       ),
                                     ),
@@ -123,7 +135,9 @@ class CategoryHeader extends StatelessWidget {
           const SizedBox(height: 16),
           ProgressWidget(
             color: category.getColor(),
-            progress: category.allTasks == 0 ? 0 : category.doneTasks / category.allTasks,
+            progress: category.allTasks == 0
+                ? 0
+                : category.doneTasks / category.allTasks,
             size: const Size(200, 8),
           ),
         ],
@@ -144,10 +158,10 @@ class TaskyCalendar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TaskyCalendarState createState() => _TaskyCalendarState();
+  TaskyCalendarState createState() => TaskyCalendarState();
 }
 
-class _TaskyCalendarState extends State<TaskyCalendar> {
+class TaskyCalendarState extends State<TaskyCalendar> {
   var calendarFormat = CalendarFormat.week;
 
   @override
@@ -173,11 +187,13 @@ class _TaskyCalendarState extends State<TaskyCalendar> {
         CalendarFormat.month: 'Month',
         CalendarFormat.week: 'Week',
       },
-      calendarStyle: CalendarStyle(
+      calendarStyle: const CalendarStyle(
         markersAnchor: 1,
         markerSize: 5,
-        markerDecoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle),
-        selectedDecoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle),
+        markerDecoration:
+            BoxDecoration(color: primaryColor, shape: BoxShape.circle),
+        selectedDecoration:
+            BoxDecoration(color: primaryColor, shape: BoxShape.circle),
       ),
     );
   }

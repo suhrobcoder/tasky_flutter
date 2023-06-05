@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tasky/todo/domain/entity/category_entity.dart';
 import 'package:tasky/todo/domain/entity/todo_entity.dart';
 import 'package:tasky/todo/domain/usecase/complete_todo.dart';
@@ -13,23 +14,20 @@ import 'package:tasky/core/extensions/datetime_ext.dart';
 part 'calendar_event.dart';
 part 'calendar_state.dart';
 
+@injectable
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   final GetTodosByCategory getTodosByCategory;
   final GetCategory getCategory;
   final DeleteTodo deleteTodo;
   final CompleteTodo completeTodo;
 
-  CalendarBloc(this.getTodosByCategory, this.getCategory, this.deleteTodo, this.completeTodo)
-      : super(InitialState(selectedDate: DateTime.now(), todos: const []));
-
   StreamSubscription<CategoryEntity>? categorySubScription;
   StreamSubscription<List<TodoEntity>>? todosSubScription;
 
-  @override
-  Stream<CalendarState> mapEventToState(
-    CalendarEvent event,
-  ) async* {
-    if (event is InitialEvent) {
+  CalendarBloc(this.getTodosByCategory, this.getCategory, this.deleteTodo,
+      this.completeTodo)
+      : super(InitialState(selectedDate: DateTime.now(), todos: const [])) {
+    on<InitialEvent>((event, emit) async {
       await categorySubScription?.cancel();
       await todosSubScription?.cancel();
       if (event.category != null) {
@@ -39,30 +37,37 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
           },
         );
       } else {
-        yield state.copyWith(category: null);
+        emit(state.copyWith(category: null));
       }
-      todosSubScription = getTodosByCategory.execute(event.category).listen((todos) {
+      todosSubScription =
+          getTodosByCategory.execute(event.category).listen((todos) {
         add(_TodosEvent(todos));
       });
-    } else if (event is DateSelected) {
-      yield state.copyWith(selectedDate: event.dateTime);
-    } else if (event is DeleteTodoEvent) {
+    });
+    on<DateSelected>((event, emit) {
+      emit(state.copyWith(selectedDate: event.dateTime));
+    });
+    on<DeleteTodoEvent>((event, emit) async {
       try {
         await deleteTodo.execute(event.todo);
       } catch (error) {
-        yield state.getErrorState("Error");
+        emit(state.getErrorState("Error"));
       }
-    } else if (event is CompleteTodoEvent) {
+    });
+    on<CompleteTodoEvent>((event, emit) async {
       try {
         await completeTodo.execute(event.todo);
       } catch (error) {
-        yield state.getErrorState("Error");
+        emit(state.getErrorState("Error"));
       }
-    } else if (event is TodoClickEvent) {
-      yield state.getShowTodoDialogState(event.todo);
-    } else if (event is _CategoryEvent) {
-      yield state.copyWith(category: event.category);
-    } else if (event is _TodosEvent) {
+    });
+    on<TodoClickEvent>((event, emit) {
+      emit(state.getShowTodoDialogState(event.todo));
+    });
+    on<_CategoryEvent>((event, emit) {
+      emit(state.copyWith(category: event.category));
+    });
+    on<_TodosEvent>((event, emit) {
       var latestDate = event.todos[0].date;
       var todosByDate = [TodosByDate(latestDate, [])];
       for (TodoEntity todo in event.todos) {
@@ -73,17 +78,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
           todosByDate.add(TodosByDate(latestDate, [todo]));
         }
       }
-      yield state.copyWith(todos: todosByDate);
-    }
-  }
-
-  @override
-  Stream<Transition<CalendarEvent, CalendarState>> transformEvents(
-      Stream<CalendarEvent> events, TransitionFunction<CalendarEvent, CalendarState> transitionFn) {
-    events.listen((event) {
-      print("Event: " + event.toString());
+      emit(state.copyWith(todos: todosByDate));
     });
-    return super.transformEvents(events, transitionFn);
   }
 }
 

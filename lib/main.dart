@@ -1,14 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/theme/app_theme.dart';
-import 'package:tasky/service_locator.dart';
+import 'package:tasky/di/init_get_it.dart';
 
 import 'core/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await setup();
+  await configureDependencies();
   runApp(const MyApp());
 }
 

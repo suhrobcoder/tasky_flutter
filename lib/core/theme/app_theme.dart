@@ -8,7 +8,7 @@ ThemeData appTheme = ThemeData(
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    brightness: Brightness.light,
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
 );
 

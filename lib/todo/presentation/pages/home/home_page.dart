@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/routes/routes.dart';
 import 'package:tasky/core/theme/app_theme.dart';
+import 'package:tasky/di/init_get_it.dart';
 import 'package:tasky/todo/presentation/pages/calendar/calendar_page.dart';
+import 'package:tasky/todo/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tasky/todo/presentation/pages/home_todo_list/home_todo_list_page.dart';
-
-import '../../../../service_locator.dart';
-import 'bloc/home_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<HomeBloc>(),
+      create: (context) => getIt<HomeBloc>(),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return Scaffold(
@@ -42,8 +41,8 @@ class HomePage extends StatelessWidget {
                   right: 0,
                   left: 0,
                   child: HomeBottomNavBar(
-                    onSelect: (index) =>
-                        BlocProvider.of<HomeBloc>(context).add(PageSelectEvent(index)),
+                    onSelect: (index) => BlocProvider.of<HomeBloc>(context)
+                        .add(PageSelectEvent(index)),
                     onAddClick: () => Navigator.pushNamed(context, addTodoPage),
                     selectedIndex: state.pageIndex,
                   ),
@@ -62,7 +61,10 @@ class HomeBottomNavBar extends StatelessWidget {
   final Function onAddClick;
   final int selectedIndex;
   const HomeBottomNavBar(
-      {required this.onSelect, required this.onAddClick, required this.selectedIndex, Key? key})
+      {required this.onSelect,
+      required this.onAddClick,
+      required this.selectedIndex,
+      Key? key})
       : super(key: key);
 
   @override
@@ -84,11 +86,15 @@ class HomeBottomNavBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              HomeBottomNavBarItem("home", selectedIndex == 0, () => onSelect(0)),
-              HomeBottomNavBarItem("calendar", selectedIndex == 1, () => onSelect(1)),
+              HomeBottomNavBarItem(
+                  "home", selectedIndex == 0, () => onSelect(0)),
+              HomeBottomNavBarItem(
+                  "calendar", selectedIndex == 1, () => onSelect(1)),
               AddButton(() => onAddClick()),
-              HomeBottomNavBarItem("notification", selectedIndex == 2, () => onSelect(2)),
-              HomeBottomNavBarItem("profile", selectedIndex == 3, () => onSelect(3)),
+              HomeBottomNavBarItem(
+                  "notification", selectedIndex == 2, () => onSelect(2)),
+              HomeBottomNavBarItem(
+                  "profile", selectedIndex == 3, () => onSelect(3)),
             ],
           ),
         ],
@@ -101,7 +107,8 @@ class HomeBottomNavBarItem extends StatelessWidget {
   final String icon;
   final bool selected;
   final Function onClick;
-  const HomeBottomNavBarItem(this.icon, this.selected, this.onClick, {Key? key}) : super(key: key);
+  const HomeBottomNavBarItem(this.icon, this.selected, this.onClick, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +118,9 @@ class HomeBottomNavBarItem extends StatelessWidget {
         "assets/icons/$icon.svg",
         width: 36,
         height: 36,
-        color: selected ? Theme.of(context).primaryColor : lightGrey,
+        colorFilter: ColorFilter.mode(
+            selected ? Theme.of(context).primaryColor : lightGrey,
+            BlendMode.srcIn),
       ),
       iconSize: 36,
       color: selected ? Theme.of(context).primaryColor : lightGrey,
@@ -150,7 +159,8 @@ class AddButton extends StatelessWidget {
               "assets/icons/plus.svg",
               height: 48,
               width: 48,
-              color: Colors.white,
+              colorFilter:
+                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
           ),
         ),

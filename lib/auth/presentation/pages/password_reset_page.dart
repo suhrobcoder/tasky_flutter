@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/auth/presentation/bloc/password_reset/passwordreset_bloc.dart';
 import 'package:tasky/auth/presentation/widgets/input_fields.dart';
 import 'package:tasky/core/constants/size.dart';
-import 'package:tasky/core/routes/routes.dart';
+import 'package:tasky/di/init_get_it.dart';
 import 'package:tasky/global_widgets/buttons.dart';
-import 'package:tasky/service_locator.dart';
 
 class PasswordResetPage extends StatelessWidget {
   const PasswordResetPage({Key? key}) : super(key: key);
@@ -13,7 +12,7 @@ class PasswordResetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<PasswordResetBloc>(),
+      create: (context) => getIt<PasswordResetBloc>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(

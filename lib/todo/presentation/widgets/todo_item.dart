@@ -24,6 +24,24 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
+      endActionPane: ActionPane(
+        motion: const SizedBox(),
+        extentRatio: 0.25,
+        children: [
+          TodoAction(
+            caption: "Delete",
+            icon: Icons.delete,
+            color: Colors.redAccent,
+            onClick: () => onClickDelete(),
+          ),
+          TodoAction(
+            caption: "Complete",
+            icon: Icons.done,
+            color: Colors.blueAccent,
+            onClick: () => onClickComplete(),
+          ),
+        ],
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -72,22 +90,6 @@ class TodoItem extends StatelessWidget {
           ),
         ),
       ),
-      actionPane: const SlidableScrollActionPane(),
-      actionExtentRatio: 0.25,
-      secondaryActions: [
-        TodoAction(
-          caption: "Delete",
-          icon: Icons.delete,
-          color: Colors.redAccent,
-          onClick: () => onClickDelete(),
-        ),
-        TodoAction(
-          caption: "Complete",
-          icon: Icons.done,
-          color: Colors.blueAccent,
-          onClick: () => onClickComplete(),
-        ),
-      ],
     );
   }
 
@@ -119,14 +121,11 @@ class TodoAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 16),
-      child: ClipRRect(
+      child: SlidableAction(
         borderRadius: BorderRadius.circular(10),
-        child: IconSlideAction(
-          caption: caption,
-          icon: icon,
-          color: color,
-          onTap: () => onClick(),
-        ),
+        icon: icon,
+        backgroundColor: color,
+        onPressed: (context) => onClick(),
       ),
     );
   }

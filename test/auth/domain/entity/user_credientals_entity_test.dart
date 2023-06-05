@@ -14,7 +14,7 @@ void main() {
       var result = entity.validate();
       expect(
         result,
-        equals(Left(CredientalsValidationFailure(invalidEmailMsg, null))),
+        equals(Left(CredientalsValidationFailure(emailMsg: invalidEmailMsg))),
       );
     },
   );
@@ -25,7 +25,8 @@ void main() {
     var result = entity.validate();
     expect(
       result,
-      equals(Left(CredientalsValidationFailure(null, didntMatchPswdMsg))),
+      equals(Left(
+          CredientalsValidationFailure(passwordRepeatMsg: didntMatchPswdMsg))),
     );
   });
 
@@ -35,7 +36,7 @@ void main() {
     var result = entity.validate();
     expect(
       result,
-      equals(Left(CredientalsValidationFailure(null, weakPswdMsg))),
+      equals(Left(CredientalsValidationFailure(passwordMsg: weakPswdMsg))),
     );
   });
 
@@ -47,7 +48,7 @@ void main() {
       var result = entity.validate();
       expect(
         result,
-        equals(Right(true)),
+        equals(const Right(true)),
       );
     },
   );

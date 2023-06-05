@@ -20,7 +20,7 @@ class CredientalsValidationFailure extends Failure {
   final String? passwordRepeatMsg;
 
   CredientalsValidationFailure(
-      this.emailMsg, this.passwordMsg, this.passwordRepeatMsg)
+      {this.emailMsg, this.passwordMsg, this.passwordRepeatMsg})
       : super([emailMsg, passwordMsg, passwordRepeatMsg]);
 }
 

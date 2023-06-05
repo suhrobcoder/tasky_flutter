@@ -1,4 +1,3 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/constants/colors.dart';
 import 'package:tasky/core/routes/routes.dart';
@@ -39,7 +38,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return Scaffold(
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: height * 0.65,
             child: PageView(
               controller: _controller,
@@ -52,7 +51,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               onPageChanged: (index) {},
             ),
           ),
-          Container(
+          SizedBox(
             height: height * 0.35,
             child: Column(
               children: [
@@ -102,7 +101,7 @@ class OnboardingItem extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: height * 0.5,
           child: Center(
             child: Image.asset("assets/images/$image.png"),

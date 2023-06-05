@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:tasky/auth/presentation/pages/onboarding_page.dart';
 import 'package:tasky/auth/presentation/pages/password_reset_page.dart';
 import 'package:tasky/auth/presentation/pages/signin_page.dart';
