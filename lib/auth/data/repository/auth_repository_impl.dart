@@ -74,7 +74,7 @@ class AuthRepositoryImpl implements AuthRepository {
         id: user.uid,
         name: user.displayName.toString(),
         email: user.email.toString(),
-        avatarUrl: "",
+        avatarUrl: user.photoURL ?? "",
       );
       await _localAuthDataSource.setUser(userModel.id, userModel.name);
       await _firestore
@@ -100,7 +100,7 @@ class AuthRepositoryImpl implements AuthRepository {
           await _firestore.collection("users").doc(user.uid).get();
       var userModel = UserModel.fromMap(userSnapshot.data()!);
       await _localAuthDataSource.setUser(userModel.id, userModel.name);
-      return Right(UserEntity(user.uid, "", user.email!, ""));
+      return Right(userModel);
     } on FirebaseAuthException catch (e) {
       return Left(AuthFailure(message: e.message ?? "Error"));
     } catch (e) {

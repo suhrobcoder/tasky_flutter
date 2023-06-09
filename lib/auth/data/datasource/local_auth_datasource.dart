@@ -4,9 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class LocalAuthDataSource {
   String getUserName();
   String getUserId();
-  Future setUser(String id, String name);
+  Future<void> setUser(String id, String name);
   Future<bool> isFirstTime();
-  Future remove();
+  Future<void> remove();
 }
 
 const userNameKey = "user_name";
@@ -30,7 +30,7 @@ class LocalAuthDataSourceImpl implements LocalAuthDataSource {
   }
 
   @override
-  Future setUser(String id, String name) async {
+  Future<void> setUser(String id, String name) async {
     await _sharedPreferences.setString(userIdKey, id);
     await _sharedPreferences.setString(userNameKey, name);
   }
@@ -43,7 +43,7 @@ class LocalAuthDataSourceImpl implements LocalAuthDataSource {
   }
 
   @override
-  Future remove() async {
+  Future<void> remove() async {
     await _sharedPreferences.remove(userIdKey);
     await _sharedPreferences.remove(userNameKey);
   }
